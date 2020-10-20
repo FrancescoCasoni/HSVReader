@@ -131,26 +131,11 @@
       <DependentUpon>Form.cs</DependentUpon>
     </Compile>
     <Compile Include="HSV.cs" />
-    <Compile Include="Migrations\202010192037523_first.cs" />
-    <Compile Include="Migrations\202010192037523_first.designer.cs">
-      <DependentUpon>202010192037523_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010192043101_second.cs" />
-    <Compile Include="Migrations\202010192043101_second.designer.cs">
-      <DependentUpon>202010192043101_second.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HSVDB.cs" />
     <EmbeddedResource Include="Form.resx">
       <DependentUpon>Form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010192037523_first.resx">
-      <DependentUpon>202010192037523_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010192043101_second.resx">
-      <DependentUpon>202010192043101_second.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

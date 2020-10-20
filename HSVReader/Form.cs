@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -38,9 +39,9 @@ namespace HSVReader
 
             Ocr = new AutoOcr();
 
-            initTable();
-
             DB = new HSVDB();
+
+            initTable();
         }
 
         private void initTable()
@@ -51,11 +52,24 @@ namespace HSVReader
             {
                 row.HeaderCell.Value = string.Format("{0}", 16 - row.Index);
             }
+
+            DB.HSVTable.ForEachAsync(c => table.Rows[16 - c.Y].Cells[c.X + 1].Style.BackColor = Color.Red);
         }
 
         private void table_SelectionChanged(object sender, EventArgs e)
         {
             currentCell = table.CurrentCell;
+
+            int X = currentCell.ColumnIndex + 1;
+            int Y = 16 - currentCell.RowIndex;
+
+            HSV hsv = DB.HSVTable.Where(v => v.X == X && v.Y == Y).FirstOrDefault();
+            if (hsv == null) return;
+
+            label9.Text = "H: " + hsv.H;
+            label8.Text = "S: " + hsv.S;
+            label7.Text = "V: " + hsv.V;
+
         }
 
         void hsvToRgb(double h, double S, double V, out int r, out int g, out int b)
@@ -149,9 +163,6 @@ namespace HSVReader
             b = Clamp((int)(B * 255.0));
         }
 
-        /// <summary>
-        /// Clamp a value to 0-255
-        /// </summary>
         int Clamp(int i)
         {
             if (i < 0) return 0;
@@ -184,9 +195,9 @@ namespace HSVReader
             {
                 hsv = new HSV()
                 {
-                    H = "-1",
-                    S = "-1",
-                    V = "-1",
+                    H = -1,
+                    S = -1,
+                    V = -1,
                     X = currentCell.ColumnIndex + 1,
                     Y = 16 - currentCell.RowIndex
                 };
@@ -220,7 +231,7 @@ namespace HSVReader
 
             label6.Text = hsv.X + "-" + hsv.Y + " registered!";
 
-            hsvToRgb(float.Parse(hsv.H) * 360, float.Parse(hsv.S) * 360, float.Parse(hsv.V) * 360, out int R, out int G, out int B);
+            hsvToRgb(hsv.H * 360, hsv.S * 360, hsv.V * 360, out int R, out int G, out int B);
 
             table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = Color.FromArgb(R, G, B);
         }

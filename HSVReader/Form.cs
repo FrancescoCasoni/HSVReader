@@ -24,9 +24,7 @@ namespace HSVReader
         {
             if (keyData == Keys.Return)
             {
-
                 performReadAndSave();
-
 
                 return true;
             }
@@ -53,7 +51,7 @@ namespace HSVReader
                 row.HeaderCell.Value = string.Format("{0}", 16 - row.Index);
             }
 
-            DB.HSVTable.ForEachAsync(c => table.Rows[16 - c.Y].Cells[c.X + 1].Style.BackColor = Color.Red);
+            DB.HSVTable.ForEachAsync(c => table.Rows[16 - c.Y].Cells[c.X - 1].Style.BackColor = ColorFromHSV(c.H * 360, c.S, c.V)).GetAwaiter().GetResult();
         }
 
         private void table_SelectionChanged(object sender, EventArgs e)
@@ -64,110 +62,41 @@ namespace HSVReader
             int Y = 16 - currentCell.RowIndex;
 
             HSV hsv = DB.HSVTable.Where(v => v.X == X && v.Y == Y).FirstOrDefault();
-            if (hsv == null) return;
-
+            if (hsv == null)
+            {
+                label9.Text = "H: ";
+                label8.Text = "S: ";
+                label7.Text = "V: ";
+                return;
+            }
             label9.Text = "H: " + hsv.H;
             label8.Text = "S: " + hsv.S;
             label7.Text = "V: " + hsv.V;
-
         }
 
-        void hsvToRgb(double h, double S, double V, out int r, out int g, out int b)
+        public static Color ColorFromHSV(double hue, double saturation, double value)
         {
-            double H = h;
-            while (H < 0) { H += 360; };
-            while (H >= 360) { H -= 360; };
-            double R, G, B;
-            if (V <= 0)
-            { R = G = B = 0; }
-            else if (S <= 0)
-            {
-                R = G = B = V;
-            }
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
             else
-            {
-                double hf = H / 60.0;
-                int i = (int)Math.Floor(hf);
-                double f = hf - i;
-                double pv = V * (1 - S);
-                double qv = V * (1 - S * f);
-                double tv = V * (1 - S * (1 - f));
-                switch (i)
-                {
-
-                    // Red is the dominant color
-
-                    case 0:
-                        R = V;
-                        G = tv;
-                        B = pv;
-                        break;
-
-                    // Green is the dominant color
-
-                    case 1:
-                        R = qv;
-                        G = V;
-                        B = pv;
-                        break;
-                    case 2:
-                        R = pv;
-                        G = V;
-                        B = tv;
-                        break;
-
-                    // Blue is the dominant color
-
-                    case 3:
-                        R = pv;
-                        G = qv;
-                        B = V;
-                        break;
-                    case 4:
-                        R = tv;
-                        G = pv;
-                        B = V;
-                        break;
-
-                    // Red is the dominant color
-
-                    case 5:
-                        R = V;
-                        G = pv;
-                        B = qv;
-                        break;
-
-                    // Just in case we overshoot on our math by a little, we put these here. Since its a switch it won't slow us down at all to put these here.
-
-                    case 6:
-                        R = V;
-                        G = tv;
-                        B = pv;
-                        break;
-                    case -1:
-                        R = V;
-                        G = pv;
-                        B = qv;
-                        break;
-
-                    // The color is not defined, we should throw an error.
-
-                    default:
-                        //LFATAL("i Value error in Pixel conversion, Value is %d", i);
-                        R = G = B = V; // Just pretend its black/white
-                        break;
-                }
-            }
-            r = Clamp((int)(R * 255.0));
-            g = Clamp((int)(G * 255.0));
-            b = Clamp((int)(B * 255.0));
-        }
-
-        int Clamp(int i)
-        {
-            if (i < 0) return 0;
-            if (i > 255) return 255;
-            return i;
+                return Color.FromArgb(255, v, p, q);
         }
 
         private Bitmap getScreenImage()
@@ -179,7 +108,7 @@ namespace HSVReader
             var gfxScreenshot = Graphics.FromImage(screen);
 
             // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(10, 150, 0, 0, new Size(500, 50), CopyPixelOperation.SourceCopy);
+            gfxScreenshot.CopyFromScreen(10, 150, 0, 0, new Size(400, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
 
@@ -231,9 +160,9 @@ namespace HSVReader
 
             label6.Text = hsv.X + "-" + hsv.Y + " registered!";
 
-            hsvToRgb(hsv.H * 360, hsv.S * 360, hsv.V * 360, out int R, out int G, out int B);
+            Color c = ColorFromHSV(hsv.H * 360, hsv.S, 0.8);
 
-            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = Color.FromArgb(R, G, B);
+            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = c;
         }
     }
 }

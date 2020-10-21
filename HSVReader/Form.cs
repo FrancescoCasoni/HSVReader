@@ -1,16 +1,14 @@
 ﻿using IronOcr;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using OfficeOpenXml;
+using System.IO;
+using System.Collections.Generic;
 
 namespace HSVReader
 {
@@ -163,6 +161,98 @@ namespace HSVReader
             Color c = ColorFromHSV(hsv.H * 360, hsv.S, 0.8);
 
             table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = c;
+        }
+
+        private void createExcelTable()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (ExcelPackage excel = new ExcelPackage())
+            {
+                excel.Workbook.Worksheets.Add("Worksheet1");
+
+                string[,] matrix = new string[16, 16];
+
+                for (int y = 0; y < 16; y++)
+                {
+                    for (int x = 0; x < 16; x++)
+                    {
+                        var hsv = DB.HSVTable.Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
+
+                        if (hsv != null) matrix[15 - y, x] = hsv.getString();
+                        else matrix[15 - y, x] = "X";
+                    }
+                }
+
+
+                string[] row1 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[0, x]).ToArray();
+                string[] row2 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[1, x]).ToArray();
+                string[] row3 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[2, x]).ToArray();
+                string[] row4 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[3, x]).ToArray();
+                string[] row5 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[4, x]).ToArray();
+                string[] row6 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[5, x]).ToArray();
+                string[] row7 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[6, x]).ToArray();
+                string[] row8 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[7, x]).ToArray();
+                string[] row9 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[8, x]).ToArray();
+                string[] row10 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[9, x]).ToArray();
+                string[] row11 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[10, x]).ToArray();
+                string[] row12 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[11, x]).ToArray();
+                string[] row13 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[12, x]).ToArray();
+                string[] row14 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[13, x]).ToArray();
+                string[] row15 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[14, x]).ToArray();
+                string[] row16 = Enumerable.Range(0, matrix.GetLength(1)).Select(x => matrix[15, x]).ToArray();
+
+                var headerRow = new List<string[]>() { row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16 };
+
+                // Determine the header range (e.g. A1:D1)
+                string r1 = "A1:P1";
+                string r2 = "A2:P2";
+                string r3 = "A3:P3";
+                string r4 = "A4:P4";
+                string r5 = "A5:P5";
+                string r6 = "A6:P6";
+                string r7 = "A7:P7";
+                string r8 = "A8:P8";
+                string r9 = "A9:P9";
+                string r10 = "A10:P10";
+                string r11 = "A11:P11";
+                string r12 = "A12:P12";
+                string r13 = "A13:P13";
+                string r14 = "A14:P14";
+                string r15 = "A15:P15";
+                string r16 = "A16:P16";
+
+                // Target a worksheet
+                var worksheet = excel.Workbook.Worksheets["Worksheet1"];
+                worksheet.Cells.Style.WrapText = true;
+                // Popular header row data
+                worksheet.Cells[r1].LoadFromArrays(headerRow);
+                //worksheet.Cells[r2].LoadFromArrays(row2);
+                //worksheet.Cells[r3].LoadFromArrays(row3);
+                //worksheet.Cells[r4].LoadFromArrays(row4);
+                //worksheet.Cells[r5].LoadFromArrays(row5);
+                //worksheet.Cells[r6].LoadFromArrays(row6);
+                //worksheet.Cells[r7].LoadFromArrays(row7);
+                //worksheet.Cells[r8].LoadFromArrays(row8);
+                //worksheet.Cells[r9].LoadFromArrays(row9);
+                //worksheet.Cells[r10].LoadFromArrays(row10);
+                //worksheet.Cells[r11].LoadFromArrays(row11);
+                //worksheet.Cells[r12].LoadFromArrays(row12);
+                //worksheet.Cells[r13].LoadFromArrays(row13);
+                //worksheet.Cells[r14].LoadFromArrays(row14);
+                //worksheet.Cells[r15].LoadFromArrays(row15);
+                //worksheet.Cells[r16].LoadFromArrays(row16);
+
+                FileInfo excelFile = new FileInfo(@"C:\Users\fabri\Desktop\test.xlsx");
+                excel.SaveAs(excelFile);
+
+
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            createExcelTable();
         }
     }
 }

@@ -27,7 +27,10 @@ namespace HSVReader
 
         public string getString()
         {
-            return "H: " + H + "\nS: " + S + "\nV: " + V;
+            string h = H.ToString("N3");
+            string s = S.ToString("N3");
+            string v = V.ToString("N2");
+            return "H: " + h + "\nS: " + s + "\nV: " + v;
         }
     }
 }

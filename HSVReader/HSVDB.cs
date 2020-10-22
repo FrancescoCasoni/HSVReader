@@ -29,5 +29,10 @@ namespace HSVReader
 
             SaveChanges();
         }
+
+        public List<HSV> getHSVTableFromVandGain(int Vref, int gain)
+        {
+            return HSVTable.Where(v => v.RefValue == Vref && v.Gain == gain).ToList();
+        }
     }
 }

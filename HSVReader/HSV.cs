@@ -16,6 +16,9 @@ namespace HSVReader
 
         public double V { get; set; }
 
+        public int RefValue { get; set; }
+        public int Gain { get; set; }
+
         public HSV() { }
 
         public HSV(string arduinoHSV)

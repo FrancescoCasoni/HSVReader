@@ -17,6 +17,8 @@ namespace HSVReader
         private DataGridViewCell currentCell;
         private readonly AutoOcr Ocr;
         private readonly HSVDB DB;
+        private int Value;
+        private int Gain;
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -37,7 +39,11 @@ namespace HSVReader
 
             DB = new HSVDB();
 
+            comboBox1.SelectedIndex = comboBox2.SelectedIndex = 0;
+
             initTable();
+
+            updateTable();
         }
 
         private void initTable()
@@ -48,8 +54,21 @@ namespace HSVReader
             {
                 row.HeaderCell.Value = string.Format("{0}", 16 - row.Index);
             }
+        }
 
-            DB.HSVTable.ForEachAsync(c => table.Rows[16 - c.Y].Cells[c.X - 1].Style.BackColor = ColorFromHSV(c.H * 360, c.S, c.V)).GetAwaiter().GetResult();
+        private void updateTable()
+        {
+            foreach (DataGridViewRow row in table.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Style.BackColor = Color.White;
+                }
+            }
+
+            DB.getHSVTableFromVandGain(Value, Gain).ForEach(c => table.Rows[16 - c.Y].Cells[c.X - 1].Style.BackColor = ColorFromHSV(c.H * 360, c.S, c.V));
+
+            label6.Text = "Table  V: " + Value + "  Gain: " + Gain;
         }
 
         private void table_SelectionChanged(object sender, EventArgs e)
@@ -59,7 +78,7 @@ namespace HSVReader
             int X = currentCell.ColumnIndex + 1;
             int Y = 16 - currentCell.RowIndex;
 
-            HSV hsv = DB.HSVTable.Where(v => v.X == X && v.Y == Y).FirstOrDefault();
+            HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
             if (hsv == null)
             {
                 label9.Text = "H: ";
@@ -100,13 +119,13 @@ namespace HSVReader
         private Bitmap getScreenImage()
         {
             //Create a new bitmap.
-            var screen = new Bitmap(500, 50, PixelFormat.Format32bppArgb);
+            var screen = new Bitmap(400, 50, PixelFormat.Format32bppArgb);
 
             // Create a graphics object from the bitmap.
             var gfxScreenshot = Graphics.FromImage(screen);
 
             // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(10, 150, 0, 0, new Size(400, 50), CopyPixelOperation.SourceCopy);
+            gfxScreenshot.CopyFromScreen(2, 150, 0, 0, new Size(400, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
 
@@ -135,7 +154,6 @@ namespace HSVReader
                 label4.Text = "X: " + hsv.X;
                 label5.Text = "Y: " + hsv.Y;
 
-                label6.Text = hsv.X + "-" + hsv.Y + " NOT registered!";
 
                 return;
             }
@@ -156,7 +174,6 @@ namespace HSVReader
 
             DB.registerHSV(hsv);
 
-            label6.Text = hsv.X + "-" + hsv.Y + " registered!";
 
             Color c = ColorFromHSV(hsv.H * 360, hsv.S, 0.8);
 
@@ -177,7 +194,7 @@ namespace HSVReader
                 {
                     for (int x = 0; x < 16; x++)
                     {
-                        var hsv = DB.HSVTable.Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
+                        var hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
 
                         if (hsv != null) matrix[15 - y, x] = hsv.getString();
                         else matrix[15 - y, x] = "X";
@@ -205,28 +222,14 @@ namespace HSVReader
                 var headerRow = new List<string[]>() { row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16 };
 
                 // Determine the header range (e.g. A1:D1)
-                string r1 = "A1:P1";
-                string r2 = "A2:P2";
-                string r3 = "A3:P3";
-                string r4 = "A4:P4";
-                string r5 = "A5:P5";
-                string r6 = "A6:P6";
-                string r7 = "A7:P7";
-                string r8 = "A8:P8";
-                string r9 = "A9:P9";
-                string r10 = "A10:P10";
-                string r11 = "A11:P11";
-                string r12 = "A12:P12";
-                string r13 = "A13:P13";
-                string r14 = "A14:P14";
-                string r15 = "A15:P15";
-                string r16 = "A16:P16";
+                string range = "A1:P1";
+
 
                 // Target a worksheet
                 var worksheet = excel.Workbook.Worksheets["Worksheet1"];
                 worksheet.Cells.Style.WrapText = true;
                 // Popular header row data
-                worksheet.Cells[r1].LoadFromArrays(headerRow);
+                worksheet.Cells[range].LoadFromArrays(headerRow);
                 //worksheet.Cells[r2].LoadFromArrays(row2);
                 //worksheet.Cells[r3].LoadFromArrays(row3);
                 //worksheet.Cells[r4].LoadFromArrays(row4);
@@ -253,6 +256,41 @@ namespace HSVReader
         private void button1_Click(object sender, EventArgs e)
         {
             createExcelTable();
+        }
+
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.SelectedIndex)
+            {
+                default: Gain = 1; break;
+                case 0: Gain = 1; break;
+                case 1: Gain = 4; break;
+                case 2: Gain = 16; break;
+                case 3: Gain = 60; break;
+            }
+
+            updateTable();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox2.SelectedIndex)
+            {
+                default: break;
+                case 0: Value = 55; break;
+                case 1: Value = 60; break;
+                case 2: Value = 65; break;
+                case 3: Value = 70; break;
+                case 4: Value = 75; break;
+                case 5: Value = 80; break;
+                case 6: Value = 85; break;
+                case 7: Value = 90; break;
+                case 8: Value = 95; break;
+                case 9: Value = 100; break;
+            }
+
+            updateTable();
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using IronOcr;
+using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using OfficeOpenXml;
-using System.IO;
-using System.Collections.Generic;
 
 namespace HSVReader
 {
@@ -40,7 +39,7 @@ namespace HSVReader
 
             WindowState = FormWindowState.Normal;
             StartPosition = FormStartPosition.Manual;
-            BringToFront();              
+            BringToFront();
             Left = 1920 - Width;
             Width += 7;
             Height += 7;

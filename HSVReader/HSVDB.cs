@@ -18,7 +18,7 @@ namespace HSVReader
 
         public void registerHSV(HSV hsv)
         {
-            HSV old = HSVTable.Where(v => v.X == hsv.X && v.Y == hsv.Y).FirstOrDefault();
+            HSV old = HSVTable.Where(v => v.X == hsv.X && v.Y == hsv.Y && v.RefValue == hsv.RefValue && v.Gain == hsv.Gain).FirstOrDefault();
 
             if (old != null)
             {

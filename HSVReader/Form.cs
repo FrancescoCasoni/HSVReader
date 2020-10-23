@@ -19,6 +19,9 @@ namespace HSVReader
         private readonly HSVDB DB;
         private int Value;
         private int Gain;
+        private bool ForcedV;
+        private bool ForcedS;
+        private bool ForcedH;
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -35,13 +38,17 @@ namespace HSVReader
         {
             InitializeComponent();
 
+            Left = 1920 - Width;
+            Top = 0;
+
             Ocr = new AutoOcr();
 
             DB = new HSVDB();
 
-            comboBox1.SelectedIndex = comboBox2.SelectedIndex = 0;
-
             initTable();
+
+            comboBoxGain.SelectedIndex = 1;
+            comboBoxValue.SelectedIndex = 4;
 
             updateTable();
         }
@@ -53,7 +60,19 @@ namespace HSVReader
             foreach (DataGridViewRow row in table.Rows)
             {
                 row.HeaderCell.Value = string.Format("{0}", 16 - row.Index);
+                row.Height = 52;
             }
+            foreach (DataGridViewColumn col in table.Columns)
+            {
+                col.Width = 52;
+            }
+
+            table.RowHeadersDefaultCellStyle.Padding = Padding.Empty;
+
+            table.Width = 17 * 52 - 2;
+            table.Height = 16 * 52 + 21;
+            panel1.Height = table.Height;
+            panel1.Height = table.Height;
         }
 
         private void updateTable()
@@ -66,10 +85,25 @@ namespace HSVReader
                 }
             }
 
-            DB.getHSVTableFromVandGain(Value, Gain).ForEach(c => table.Rows[16 - c.Y].Cells[c.X - 1].Style.BackColor = ColorFromHSV(c.H * 360, c.S, c.V));
+            colorCells();
 
-            label6.Text = "Table  V: " + Value + "  Gain: " + Gain;
+            label6.Text = "V: " + ((double)Value / 100).ToString("N2") + "    Gain: " + Gain + "X";
         }
+
+
+        private void colorCells()
+        {
+            foreach (HSV cell in DB.getHSVTableFromVandGain(Value, Gain))
+            {
+
+                double h = ForcedH ? (double)numericUpDownH.Value : cell.H;
+                double s = ForcedS ? (double)numericUpDownS.Value : cell.S;
+                double v = ForcedV ? (double)numericUpDownV.Value : cell.V;
+
+                table.Rows[16 - cell.Y].Cells[cell.X - 1].Style.BackColor = ColorFromHSV(h * 360, s, v);
+            }
+        }
+
 
         private void table_SelectionChanged(object sender, EventArgs e)
         {
@@ -81,14 +115,18 @@ namespace HSVReader
             HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
             if (hsv == null)
             {
-                label9.Text = "H: ";
-                label8.Text = "S: ";
-                label7.Text = "V: ";
+                label9.Text = "H: mancante";
+                label8.Text = "S: mancante";
+                label7.Text = "V: mancante";
+                label18.Text = "X: " + X;
+                label19.Text = "Y: " + Y;
                 return;
             }
             label9.Text = "H: " + hsv.H;
             label8.Text = "S: " + hsv.S;
             label7.Text = "V: " + hsv.V;
+            label18.Text = "X: " + hsv.X;
+            label19.Text = "Y: " + hsv.Y;
         }
 
         public static Color ColorFromHSV(double hue, double saturation, double value)
@@ -119,13 +157,13 @@ namespace HSVReader
         private Bitmap getScreenImage()
         {
             //Create a new bitmap.
-            var screen = new Bitmap(400, 50, PixelFormat.Format32bppArgb);
+            var screen = new Bitmap(330, 50, PixelFormat.Format32bppArgb);
 
             // Create a graphics object from the bitmap.
             var gfxScreenshot = Graphics.FromImage(screen);
 
             // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(2, 150, 0, 0, new Size(400, 50), CopyPixelOperation.SourceCopy);
+            gfxScreenshot.CopyFromScreen(5, 150, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
 
@@ -135,9 +173,9 @@ namespace HSVReader
         private void performReadAndSave()
         {
             var res = Ocr.Read(getScreenImage());
-            string s = res.Text;
+            string read = res.Text;
             HSV hsv;
-            if (string.IsNullOrWhiteSpace(s) || string.IsNullOrEmpty(s) || s.Length < 29)
+            if (string.IsNullOrWhiteSpace(read) || string.IsNullOrEmpty(read) || read.Length < 29)
             {
                 hsv = new HSV()
                 {
@@ -159,10 +197,12 @@ namespace HSVReader
             }
             else
             {
-                hsv = new HSV(s)
+                hsv = new HSV(read)
                 {
                     X = currentCell.ColumnIndex + 1,
-                    Y = 16 - currentCell.RowIndex
+                    Y = 16 - currentCell.RowIndex,
+                    Gain = Gain,
+                    RefValue = Value
                 };
             }
 
@@ -175,7 +215,11 @@ namespace HSVReader
             DB.registerHSV(hsv);
 
 
-            Color c = ColorFromHSV(hsv.H * 360, hsv.S, 0.8);
+            double h = ForcedH ? (double)numericUpDownH.Value : hsv.H;
+            double s = ForcedS ? (double)numericUpDownS.Value : hsv.S;
+            double v = ForcedV ? (double)numericUpDownV.Value : hsv.V;
+
+            Color c = ColorFromHSV(h * 360, s, v);
 
             table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = c;
         }
@@ -221,35 +265,17 @@ namespace HSVReader
 
                 var headerRow = new List<string[]>() { row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11, row12, row13, row14, row15, row16 };
 
-                // Determine the header range (e.g. A1:D1)
                 string range = "A1:P1";
 
-
-                // Target a worksheet
                 var worksheet = excel.Workbook.Worksheets["Worksheet1"];
+
                 worksheet.Cells.Style.WrapText = true;
-                // Popular header row data
+
                 worksheet.Cells[range].LoadFromArrays(headerRow);
-                //worksheet.Cells[r2].LoadFromArrays(row2);
-                //worksheet.Cells[r3].LoadFromArrays(row3);
-                //worksheet.Cells[r4].LoadFromArrays(row4);
-                //worksheet.Cells[r5].LoadFromArrays(row5);
-                //worksheet.Cells[r6].LoadFromArrays(row6);
-                //worksheet.Cells[r7].LoadFromArrays(row7);
-                //worksheet.Cells[r8].LoadFromArrays(row8);
-                //worksheet.Cells[r9].LoadFromArrays(row9);
-                //worksheet.Cells[r10].LoadFromArrays(row10);
-                //worksheet.Cells[r11].LoadFromArrays(row11);
-                //worksheet.Cells[r12].LoadFromArrays(row12);
-                //worksheet.Cells[r13].LoadFromArrays(row13);
-                //worksheet.Cells[r14].LoadFromArrays(row14);
-                //worksheet.Cells[r15].LoadFromArrays(row15);
-                //worksheet.Cells[r16].LoadFromArrays(row16);
 
-                FileInfo excelFile = new FileInfo(@"C:\Users\fabri\Desktop\test.xlsx");
+
+                FileInfo excelFile = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test.xlsx");
                 excel.SaveAs(excelFile);
-
-
             }
         }
 
@@ -261,7 +287,7 @@ namespace HSVReader
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox1.SelectedIndex)
+            switch (comboBoxGain.SelectedIndex)
             {
                 default: Gain = 1; break;
                 case 0: Gain = 1; break;
@@ -275,7 +301,7 @@ namespace HSVReader
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox2.SelectedIndex)
+            switch (comboBoxValue.SelectedIndex)
             {
                 default: break;
                 case 0: Value = 55; break;
@@ -291,6 +317,45 @@ namespace HSVReader
             }
 
             updateTable();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, panel1.ClientRectangle,
+                   Color.Gray, 0, ButtonBorderStyle.Solid,
+                   Color.Gray, 0, ButtonBorderStyle.Solid,
+                   Color.Black, 2, ButtonBorderStyle.Solid,
+                   Color.Gray, 0, ButtonBorderStyle.Solid);
+        }
+
+        private void table_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, table.ClientRectangle,
+                  Color.Black, 2, ButtonBorderStyle.Solid,
+                  Color.Black, 2, ButtonBorderStyle.Solid,
+                  Color.Black, 2, ButtonBorderStyle.Solid,
+                  Color.Black, 2, ButtonBorderStyle.Solid);
+        }
+
+        private void buttonFH_Click(object sender, EventArgs e)
+        {
+            ForcedH = !ForcedH;
+            buttonFH.Text = ForcedH ? "Remove" : "Apply";
+            colorCells();
+        }
+
+        private void buttonFS_Click(object sender, EventArgs e)
+        {
+            ForcedS = !ForcedS;
+            buttonFS.Text = ForcedS ? "Remove" : "Apply";
+            colorCells();
+        }
+
+        private void buttonFV_Click(object sender, EventArgs e)
+        {
+            ForcedV = !ForcedV;
+            buttonFV.Text = ForcedV ? "Remove" : "Apply";
+            colorCells();
         }
     }
 }

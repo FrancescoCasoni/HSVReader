@@ -38,7 +38,12 @@ namespace HSVReader
         {
             InitializeComponent();
 
+            WindowState = FormWindowState.Normal;
+            StartPosition = FormStartPosition.Manual;
+            BringToFront();              
             Left = 1920 - Width;
+            Width += 7;
+            Height += 7;
             Top = 0;
 
             Ocr = new AutoOcr();
@@ -88,6 +93,8 @@ namespace HSVReader
             colorCells();
 
             label6.Text = "V: " + ((double)Value / 100).ToString("N2") + "    Gain: " + Gain + "X";
+
+            table_SelectionChanged(null, null);
         }
 
 
@@ -108,7 +115,7 @@ namespace HSVReader
         private void table_SelectionChanged(object sender, EventArgs e)
         {
             currentCell = table.CurrentCell;
-
+            if (currentCell == null) return;
             int X = currentCell.ColumnIndex + 1;
             int Y = 16 - currentCell.RowIndex;
 

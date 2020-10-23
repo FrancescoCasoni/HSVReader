@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.table = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,14 +86,14 @@
             // table
             // 
             this.table.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.table.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.table.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -473,9 +473,9 @@
             this.label13.Location = new System.Drawing.Point(918, 553);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(158, 20);
+            this.label13.Size = new System.Drawing.Size(99, 20);
             this.label13.TabIndex = 18;
-            this.label13.Text = "Force Display Values";
+            this.label13.Text = "Force values";
             // 
             // label14
             // 
@@ -526,30 +526,65 @@
             // 
             this.numericUpDownH.DecimalPlaces = 3;
             this.numericUpDownH.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownH.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            196608});
             this.numericUpDownH.Location = new System.Drawing.Point(947, 600);
+            this.numericUpDownH.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownH.Name = "numericUpDownH";
             this.numericUpDownH.Size = new System.Drawing.Size(61, 24);
             this.numericUpDownH.TabIndex = 26;
+            this.numericUpDownH.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            196608});
             // 
             // numericUpDownS
             // 
             this.numericUpDownS.DecimalPlaces = 3;
             this.numericUpDownS.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownS.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            196608});
             this.numericUpDownS.Location = new System.Drawing.Point(947, 652);
-            this.numericUpDownS.Name = "numericUpDownS";
-            this.numericUpDownS.Size = new System.Drawing.Size(61, 24);
-            this.numericUpDownS.TabIndex = 27;
-            this.numericUpDownS.Value = new decimal(new int[] {
+            this.numericUpDownS.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.numericUpDownS.Name = "numericUpDownS";
+            this.numericUpDownS.Size = new System.Drawing.Size(61, 24);
+            this.numericUpDownS.TabIndex = 27;
+            this.numericUpDownS.Value = new decimal(new int[] {
+            85,
+            0,
+            0,
+            131072});
             // 
             // numericUpDownV
             // 
             this.numericUpDownV.DecimalPlaces = 2;
             this.numericUpDownV.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownV.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
             this.numericUpDownV.Location = new System.Drawing.Point(947, 705);
+            this.numericUpDownV.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDownV.Name = "numericUpDownV";
             this.numericUpDownV.Size = new System.Drawing.Size(61, 24);
             this.numericUpDownV.TabIndex = 28;
@@ -654,6 +689,7 @@
             this.Controls.Add(this.table);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form";
+            this.ShowIcon = false;
             this.Text = "ANTS 2.0 HSV Reader";
             ((System.ComponentModel.ISupportInitialize)(this.table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

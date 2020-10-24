@@ -75,8 +75,28 @@ namespace HSVReader
 
             table.Width = 17 * 52 - 2;
             table.Height = 16 * 52 + 21;
-            panel1.Height = table.Height;
-            panel1.Height = table.Height;
+
+
+            pictureBox2.Height = table.Height;
+            pictureBox2.Top = table.Top;
+            pictureBox2.Left = table.Right;
+            Bitmap b = new Bitmap(table.Width, table.Height);
+            table.DrawToBitmap(b, new Rectangle(0, 0, b.Width, b.Height));
+            b = b.Clone(new Rectangle(21, 0, 25, table.Height), b.PixelFormat);
+            pictureBox2.Image = b;
+
+            pictureBox3.Height = 21;
+            pictureBox3.Width = table.Width + pictureBox2.Width;
+            pictureBox3.Top = table.Bottom;
+            pictureBox3.Left = table.Left;
+            Bitmap c = new Bitmap(table.Width, table.Height);
+            table.DrawToBitmap(c, new Rectangle(0, 0, c.Width, c.Height));
+            c = c.Clone(new Rectangle(0, 2, table.Width, 18), c.PixelFormat);
+            Bitmap d = new Bitmap(table.Width + pictureBox2.Width, 21);
+            Graphics.FromImage(d).DrawImage(c, 0, 0);
+            pictureBox3.Image = d;
+
+            panel1.Height = table.Height + pictureBox3.Height;
         }
 
         private void updateTable()
@@ -96,7 +116,6 @@ namespace HSVReader
             table_SelectionChanged(null, null);
         }
 
-
         private void colorCells()
         {
             foreach (HSV cell in DB.getHSVTableFromVandGain(Value, Gain))
@@ -108,31 +127,6 @@ namespace HSVReader
 
                 table.Rows[16 - cell.Y].Cells[cell.X - 1].Style.BackColor = ColorFromHSV(h * 360, s, v);
             }
-        }
-
-
-        private void table_SelectionChanged(object sender, EventArgs e)
-        {
-            currentCell = table.CurrentCell;
-            if (currentCell == null) return;
-            int X = currentCell.ColumnIndex + 1;
-            int Y = 16 - currentCell.RowIndex;
-
-            HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
-            if (hsv == null)
-            {
-                label9.Text = "H: mancante";
-                label8.Text = "S: mancante";
-                label7.Text = "V: mancante";
-                label18.Text = "X: " + X;
-                label19.Text = "Y: " + Y;
-                return;
-            }
-            label9.Text = "H: " + hsv.H;
-            label8.Text = "S: " + hsv.S;
-            label7.Text = "V: " + hsv.V;
-            label18.Text = "X: " + hsv.X;
-            label19.Text = "Y: " + hsv.Y;
         }
 
         public static Color ColorFromHSV(double hue, double saturation, double value)
@@ -159,6 +153,7 @@ namespace HSVReader
             else
                 return Color.FromArgb(255, v, p, q);
         }
+
 
         private Bitmap getScreenImage()
         {
@@ -198,18 +193,40 @@ namespace HSVReader
                 label4.Text = "X: " + hsv.X;
                 label5.Text = "Y: " + hsv.Y;
 
-
                 return;
             }
             else
             {
-                hsv = new HSV(read)
+                try
                 {
-                    X = currentCell.ColumnIndex + 1,
-                    Y = 16 - currentCell.RowIndex,
-                    Gain = Gain,
-                    RefValue = Value
-                };
+                    hsv = new HSV(read)
+                    {
+                        X = currentCell.ColumnIndex + 1,
+                        Y = 16 - currentCell.RowIndex,
+                        Gain = Gain,
+                        RefValue = Value
+                    };
+                }
+                catch (Exception)
+                {
+                    hsv = new HSV()
+                    {
+                        H = -1,
+                        S = -1,
+                        V = -1,
+                        X = currentCell.ColumnIndex + 1,
+                        Y = 16 - currentCell.RowIndex
+                    };
+
+                    label1.Text = "H: " + hsv.H;
+                    label2.Text = "S: " + hsv.S;
+                    label3.Text = "V: " + hsv.V;
+                    label4.Text = "X: " + hsv.X;
+                    label5.Text = "Y: " + hsv.Y;
+
+                    return;
+                }
+               
             }
 
             label1.Text = "H: " + hsv.H;
@@ -228,7 +245,10 @@ namespace HSVReader
             Color c = ColorFromHSV(h * 360, s, v);
 
             table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = c;
+
+            table_SelectionChanged(null, null);
         }
+
 
         private void createExcelTable()
         {
@@ -285,11 +305,49 @@ namespace HSVReader
             }
         }
 
+
+
+        private void table_SelectionChanged(object sender, EventArgs e)
+        {
+            currentCell = table.CurrentCell;
+            table.ClearSelection();
+
+            if (currentCell == null) return;
+
+            foreach (DataGridViewRow row in table.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Value = "";
+                }
+            }
+
+            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Value = "●";
+
+            int X = currentCell.ColumnIndex + 1;
+            int Y = 16 - currentCell.RowIndex;
+
+            HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
+            if (hsv == null)
+            {
+                label9.Text = "H: missing";
+                label8.Text = "S: missing";
+                label7.Text = "V: missing";
+                label18.Text = "Col: " + X;
+                label19.Text = "Row: " + Y;
+                return;
+            }
+            label9.Text = "H: " + hsv.H;
+            label8.Text = "S: " + hsv.S;
+            label7.Text = "V: " + hsv.V;
+            label18.Text = "Col: " + hsv.X;
+            label19.Text = "Row: " + hsv.Y;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             createExcelTable();
         }
-
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -337,10 +395,10 @@ namespace HSVReader
         private void table_Paint(object sender, PaintEventArgs e)
         {
             ControlPaint.DrawBorder(e.Graphics, table.ClientRectangle,
+                  Color.Black, 0, ButtonBorderStyle.Solid,
                   Color.Black, 2, ButtonBorderStyle.Solid,
-                  Color.Black, 2, ButtonBorderStyle.Solid,
-                  Color.Black, 2, ButtonBorderStyle.Solid,
-                  Color.Black, 2, ButtonBorderStyle.Solid);
+                  Color.Black, 0, ButtonBorderStyle.Solid,
+                  Color.Black, 0, ButtonBorderStyle.Solid);
         }
 
         private void buttonFH_Click(object sender, EventArgs e)
@@ -362,6 +420,24 @@ namespace HSVReader
             ForcedV = !ForcedV;
             buttonFV.Text = ForcedV ? "Remove" : "Apply";
             colorCells();
+        }
+
+        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, pictureBox2.ClientRectangle,
+                  Color.Gray, 0, ButtonBorderStyle.Solid,
+                  Color.Gray, 0, ButtonBorderStyle.Solid,
+                  Color.Black, 2, ButtonBorderStyle.Solid,
+                  Color.Gray, 0, ButtonBorderStyle.Solid);
+        }
+
+        private void pictureBox3_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, pictureBox3.ClientRectangle,
+                 Color.Gray, 0, ButtonBorderStyle.Solid,
+                 Color.Gray, 0, ButtonBorderStyle.Solid,
+                 Color.Black, 2, ButtonBorderStyle.Solid,
+                 Color.Black, 2, ButtonBorderStyle.Solid);
         }
     }
 }

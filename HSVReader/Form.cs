@@ -59,6 +59,8 @@ namespace HSVReader
 
         private void initTable()
         {
+            table.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
             table.Rows.Add(15);
 
             foreach (DataGridViewRow row in table.Rows)
@@ -164,7 +166,7 @@ namespace HSVReader
             var gfxScreenshot = Graphics.FromImage(screen);
 
             // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(5, 150, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
+            gfxScreenshot.CopyFromScreen(2, 150, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
 
@@ -187,9 +189,9 @@ namespace HSVReader
                     Y = 16 - currentCell.RowIndex
                 };
 
-                label1.Text = "H: " + hsv.H;
-                label2.Text = "S: " + hsv.S;
-                label3.Text = "V: " + hsv.V;
+                label1.Text = "H: " + hsv.H.ToString("N3");
+                label2.Text = "S: " + hsv.S.ToString("N3");
+                label3.Text = "V: " + hsv.V.ToString("N2");
                 label4.Text = "X: " + hsv.X;
                 label5.Text = "Y: " + hsv.Y;
 
@@ -218,15 +220,15 @@ namespace HSVReader
                         Y = 16 - currentCell.RowIndex
                     };
 
-                    label1.Text = "H: " + hsv.H;
-                    label2.Text = "S: " + hsv.S;
-                    label3.Text = "V: " + hsv.V;
+                    label1.Text = "H: " + hsv.H.ToString("N3");
+                    label2.Text = "S: " + hsv.S.ToString("N3");
+                    label3.Text = "V: " + hsv.V.ToString("N2");
                     label4.Text = "X: " + hsv.X;
                     label5.Text = "Y: " + hsv.Y;
 
                     return;
                 }
-               
+
             }
 
             label1.Text = "H: " + hsv.H;
@@ -300,7 +302,7 @@ namespace HSVReader
                 worksheet.Cells[range].LoadFromArrays(headerRow);
 
 
-                FileInfo excelFile = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test.xlsx");
+                FileInfo excelFile = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Readings " + Gain + "xG " + Value + "V.xlsx");
                 excel.SaveAs(excelFile);
             }
         }
@@ -309,10 +311,13 @@ namespace HSVReader
 
         private void table_SelectionChanged(object sender, EventArgs e)
         {
-            currentCell = table.CurrentCell;
-            table.ClearSelection();
+            if (table.CurrentCell == null) return;
 
-            if (currentCell == null) return;
+            currentCell = table.CurrentCell;
+            //Color c = currentCell.Style.BackColor;
+            //c = Color.FromArgb(255 - c.R, 255 - c.G, 255 - c.B);
+            //table.ForeColor = c;
+            table.ClearSelection();
 
             foreach (DataGridViewRow row in table.Rows)
             {
@@ -337,9 +342,9 @@ namespace HSVReader
                 label19.Text = "Row: " + Y;
                 return;
             }
-            label9.Text = "H: " + hsv.H;
-            label8.Text = "S: " + hsv.S;
-            label7.Text = "V: " + hsv.V;
+            label9.Text = "H: " + hsv.H.ToString("N3");
+            label8.Text = "S: " + hsv.S.ToString("N3");
+            label7.Text = "V: " + hsv.V.ToString("N2");
             label18.Text = "Col: " + hsv.X;
             label19.Text = "Row: " + hsv.Y;
         }
@@ -396,7 +401,7 @@ namespace HSVReader
         {
             ControlPaint.DrawBorder(e.Graphics, table.ClientRectangle,
                   Color.Black, 0, ButtonBorderStyle.Solid,
-                  Color.Black, 2, ButtonBorderStyle.Solid,
+                  Color.Black, 0, ButtonBorderStyle.Solid,
                   Color.Black, 0, ButtonBorderStyle.Solid,
                   Color.Black, 0, ButtonBorderStyle.Solid);
         }
@@ -438,6 +443,15 @@ namespace HSVReader
                  Color.Gray, 0, ButtonBorderStyle.Solid,
                  Color.Black, 2, ButtonBorderStyle.Solid,
                  Color.Black, 2, ButtonBorderStyle.Solid);
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, panel2.ClientRectangle,
+                Color.Gray, 0, ButtonBorderStyle.Solid,
+                Color.Gray, 0, ButtonBorderStyle.Solid,
+                Color.Black, 0, ButtonBorderStyle.Solid,
+                Color.Black, 2, ButtonBorderStyle.Solid);
         }
     }
 }

@@ -223,10 +223,6 @@ namespace HSVReader
             //label25.Text = "R: " + R;
             //label24.Text = "G: " + G;
             //label23.Text = "B: " + B;
-
-
-
-
         }
 
 
@@ -430,6 +426,15 @@ namespace HSVReader
                 Color.Gray, 0, ButtonBorderStyle.Solid,
                 Color.Black, 0, ButtonBorderStyle.Solid,
                 Color.Black, 2, ButtonBorderStyle.Solid);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DB.deleteHSV(currentCell.ColumnIndex + 1, 16 - currentCell.RowIndex, Value, Gain);
+
+            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = Color.White;
+
+            table_SelectionChanged(null, null);
         }
     }
 }

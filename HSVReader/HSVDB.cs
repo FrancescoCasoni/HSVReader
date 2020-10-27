@@ -30,6 +30,18 @@ namespace HSVReader
             SaveChanges();
         }
 
+        public void deleteHSV(int x,int y, int refValue, int gain)
+        {
+            HSV hsv = HSVTable.Where(v => v.X == x && v.Y == y && v.RefValue == refValue && v.Gain == gain).FirstOrDefault();
+
+            if (hsv != null)
+            {
+                HSVTable.Remove(hsv);
+            }                        
+
+            SaveChanges();
+        }
+
         public List<HSV> getHSVTableFromVandGain(int Vref, int gain)
         {
             return HSVTable.Where(v => v.RefValue == Vref && v.Gain == gain).ToList();

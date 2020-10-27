@@ -120,40 +120,18 @@ namespace HSVReader
 
         private void colorCells()
         {
-            foreach (HSV cell in DB.getHSVTableFromVandGain(Value, Gain))
+            foreach (HSV hsv in DB.getHSVTableFromVandGain(Value, Gain))
             {
+                if (ForcedH || ForcedS || ForcedV)
+                {
+                    double h = ForcedH ? (double)numericUpDownH.Value : hsv.H;
+                    double s = ForcedS ? (double)numericUpDownS.Value : hsv.S;
+                    double v = ForcedV ? (double)numericUpDownV.Value : hsv.V;
 
-                double h = ForcedH ? (double)numericUpDownH.Value : cell.H;
-                double s = ForcedS ? (double)numericUpDownS.Value : cell.S;
-                double v = ForcedV ? (double)numericUpDownV.Value : cell.V;
-
-                table.Rows[16 - cell.Y].Cells[cell.X - 1].Style.BackColor = ColorFromHSV(h * 360, s, v);
+                    table.Rows[16 - hsv.Y].Cells[hsv.X - 1].Style.BackColor = HSV.ColorFromHSV(h, s, v);
+                }
+                else table.Rows[16 - hsv.Y].Cells[hsv.X - 1].Style.BackColor = Color.FromArgb(hsv.R, hsv.G, hsv.B);
             }
-        }
-
-        public static Color ColorFromHSV(double hue, double saturation, double value)
-        {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
-
-            value = value * 255;
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - saturation));
-            int q = Convert.ToInt32(value * (1 - f * saturation));
-            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
-
-            if (hi == 0)
-                return Color.FromArgb(255, v, t, p);
-            else if (hi == 1)
-                return Color.FromArgb(255, q, v, p);
-            else if (hi == 2)
-                return Color.FromArgb(255, p, v, t);
-            else if (hi == 3)
-                return Color.FromArgb(255, p, q, v);
-            else if (hi == 4)
-                return Color.FromArgb(255, t, p, v);
-            else
-                return Color.FromArgb(255, v, p, q);
         }
 
 
@@ -166,7 +144,7 @@ namespace HSVReader
             var gfxScreenshot = Graphics.FromImage(screen);
 
             // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(2, 150, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
+            gfxScreenshot.CopyFromScreen(2, 144, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
 
@@ -175,80 +153,80 @@ namespace HSVReader
 
         private void performReadAndSave()
         {
-            var res = Ocr.Read(getScreenImage());
-            string read = res.Text;
-            HSV hsv;
-            if (string.IsNullOrWhiteSpace(read) || string.IsNullOrEmpty(read) || read.Length < 29)
+            OcrResult res = Ocr.Read(getScreenImage());
+            string ocrText = res.Text;
+
+            int x = currentCell.ColumnIndex + 1;
+            int y = 16 - currentCell.RowIndex;
+
+            label4.Text = "X: " + x;
+            label5.Text = "Y: " + y;
+
+            try
             {
-                hsv = new HSV()
-                {
-                    H = -1,
-                    S = -1,
-                    V = -1,
-                    X = currentCell.ColumnIndex + 1,
-                    Y = 16 - currentCell.RowIndex
-                };
+                HSV hsv = new HSV(ocrText, x, y, Gain, Value);
+
+                label26.ForeColor = Color.LimeGreen;
+                label26.Text = "OK";
 
                 label1.Text = "H: " + hsv.H.ToString("N3");
                 label2.Text = "S: " + hsv.S.ToString("N3");
                 label3.Text = "V: " + hsv.V.ToString("N2");
-                label4.Text = "X: " + hsv.X;
-                label5.Text = "Y: " + hsv.Y;
+                label25.Text = "R: " + hsv.R;
+                label24.Text = "G: " + hsv.G;
+                label23.Text = "B: " + hsv.B;
+
+                DB.registerHSV(hsv);
+
+                panel3.BackColor = Color.FromArgb(hsv.R, hsv.G, hsv.B);
+
+
+                if (ForcedH || ForcedS || ForcedV)
+                {
+                    double h = ForcedH ? (double)numericUpDownH.Value : hsv.H;
+                    double s = ForcedS ? (double)numericUpDownS.Value : hsv.S;
+                    double v = ForcedV ? (double)numericUpDownV.Value : hsv.V;
+
+                    table.Rows[16 - hsv.Y].Cells[hsv.X - 1].Style.BackColor = HSV.ColorFromHSV(h, s, v);
+                }
+                else table.Rows[16 - hsv.Y].Cells[hsv.X - 1].Style.BackColor = Color.FromArgb(hsv.R, hsv.G, hsv.B);
+
+
+                table_SelectionChanged(null, null);
+            }
+            catch (Exception)
+            {
+                label26.ForeColor = Color.Red;
+                label26.Text = "Failed";
+
+                label1.Text = "H: ?";
+                label2.Text = "S: ?";
+                label3.Text = "V: ?";
+                label25.Text = "R: ?";
+                label24.Text = "G: ?";
+                label23.Text = "B: ?";
+
+                panel3.BackColor = Color.Transparent;
 
                 return;
             }
-            else
-            {
-                try
-                {
-                    hsv = new HSV(read)
-                    {
-                        X = currentCell.ColumnIndex + 1,
-                        Y = 16 - currentCell.RowIndex,
-                        Gain = Gain,
-                        RefValue = Value
-                    };
-                }
-                catch (Exception)
-                {
-                    hsv = new HSV()
-                    {
-                        H = -1,
-                        S = -1,
-                        V = -1,
-                        X = currentCell.ColumnIndex + 1,
-                        Y = 16 - currentCell.RowIndex
-                    };
-
-                    label1.Text = "H: " + hsv.H.ToString("N3");
-                    label2.Text = "S: " + hsv.S.ToString("N3");
-                    label3.Text = "V: " + hsv.V.ToString("N2");
-                    label4.Text = "X: " + hsv.X;
-                    label5.Text = "Y: " + hsv.Y;
-
-                    return;
-                }
-
-            }
-
-            label1.Text = "H: " + hsv.H;
-            label2.Text = "S: " + hsv.S;
-            label3.Text = "V: " + hsv.V;
-            label4.Text = "X: " + hsv.X;
-            label5.Text = "Y: " + hsv.Y;
-
-            DB.registerHSV(hsv);
 
 
-            double h = ForcedH ? (double)numericUpDownH.Value : hsv.H;
-            double s = ForcedS ? (double)numericUpDownS.Value : hsv.S;
-            double v = ForcedV ? (double)numericUpDownV.Value : hsv.V;
+            //string R = ocrText.Substring(30, 6).Replace('.', ',');
+            //string G = ocrText.Substring(40, 6).Replace('.', ',');
+            //string B = ocrText.Substring(50, 6).Replace('.', ',');
 
-            Color c = ColorFromHSV(h * 360, s, v);
+            //double r = Math.Round(double.Parse(R), 3);
+            //double g = Math.Round(double.Parse(G), 3);
+            //double b = Math.Round(double.Parse(B), 3);
 
-            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = c;
+            //label25.Text = "R: " + R;
+            //label24.Text = "G: " + G;
+            //label23.Text = "B: " + B;
 
-            table_SelectionChanged(null, null);
+
+
+
         }
 
 
@@ -268,7 +246,7 @@ namespace HSVReader
                     {
                         var hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
 
-                        if (hsv != null) matrix[15 - y, x] = hsv.getString();
+                        if (hsv != null) matrix[15 - y, x] = hsv.getAsString();
                         else matrix[15 - y, x] = "X";
                     }
                 }

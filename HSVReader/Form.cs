@@ -113,7 +113,7 @@ namespace HSVReader
 
             colorCells();
 
-            label6.Text = "V: " + ((double)Value / 100).ToString("N2") + "    Gain: " + Gain + "X";
+            //label6.Text = "V: " + ((double)Value / 100).ToString("N2") + "    Gain: " + Gain + "X";
 
             table_SelectionChanged(null, null);
         }
@@ -161,20 +161,20 @@ namespace HSVReader
                 int x = currentCell.ColumnIndex + 1;
                 int y = 16 - currentCell.RowIndex;
 
-                label4.Text = "X: " + x;
-                label5.Text = "Y: " + y;
+                labelCol.Text = "X: " + x;
+                labelRow.Text = "Y: " + y;
 
                 HSV hsv = new HSV(ocrText, x, y, Gain, Value);
 
                 label26.ForeColor = Color.LimeGreen;
                 label26.Text = "OK";
 
-                label1.Text = "H: " + hsv.H.ToString("N3");
-                label2.Text = "S: " + hsv.S.ToString("N3");
-                label3.Text = "V: " + hsv.V.ToString("N2");
-                label25.Text = "R: " + hsv.R;
-                label24.Text = "G: " + hsv.G;
-                label23.Text = "B: " + hsv.B;
+                label1.Text = hsv.H.ToString("N3");
+                label2.Text = hsv.S.ToString("N3");
+                label3.Text = hsv.V.ToString("N2");
+                label25.Text = hsv.R.ToString();
+                label24.Text = hsv.G.ToString();
+                label23.Text = hsv.B.ToString();
 
                 DB.registerHSV(hsv);
 
@@ -199,12 +199,12 @@ namespace HSVReader
                 label26.ForeColor = Color.Red;
                 label26.Text = "Failed";
 
-                label1.Text = "H: ?";
-                label2.Text = "S: ?";
-                label3.Text = "V: ?";
-                label25.Text = "R: ?";
-                label24.Text = "G: ?";
-                label23.Text = "B: ?";
+                label1.Text =
+                label2.Text =
+                label3.Text =
+                label25.Text =
+                label24.Text =
+                label23.Text = "???";
 
                 panel3.BackColor = Color.Transparent;
 
@@ -301,7 +301,7 @@ namespace HSVReader
                 }
             }
 
-            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Value = "●";
+            table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Value = "🞢";
 
             int X = currentCell.ColumnIndex + 1;
             int Y = 16 - currentCell.RowIndex;
@@ -309,26 +309,28 @@ namespace HSVReader
             HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
             if (hsv == null)
             {
-                label9.Text = "H: missing";
-                label8.Text = "S: missing";
-                label7.Text = "V: missing";
-                label29.Text = "R: missing";
-                label28.Text = "G: missing";
-                label27.Text = "B: missing";
-                label18.Text = "Col: " + X;
-                label19.Text = "Row: " + Y;
+                labelCurH.Text = "empty";
+                labelCurS.Text = "empty";
+                labelCurV.Text = "empty";
+                labelCurR.Text = "empty";
+                labelCurG.Text = "empty";
+                labelCurB.Text = "empty";
+                labelCurCol.Text = "Col: " + X;
+                labelCurRow.Text = "Row: " + Y;
+                panelCurCell.BackColor = Color.White;
+
                 return;
             }
-            label9.Text = "H: " + hsv.H.ToString("N3");
-            label8.Text = "S: " + hsv.S.ToString("N3");
-            label7.Text = "V: " + hsv.V.ToString("N2");
-            label29.Text = "R: " + hsv.R;
-            label28.Text = "G: " + hsv.G;
-            label27.Text = "B: " + hsv.B;
-            label18.Text = "Col: " + hsv.X;
-            label19.Text = "Row: " + hsv.Y;
+            labelCurH.Text = hsv.H.ToString("N3");
+            labelCurS.Text = hsv.S.ToString("N3");
+            labelCurV.Text = hsv.V.ToString("N2");
+            labelCurR.Text = hsv.R.ToString();
+            labelCurG.Text = hsv.G.ToString();
+            labelCurB.Text = hsv.B.ToString();
+            labelCurCol.Text = hsv.X.ToString();
+            labelCurRow.Text = hsv.Y.ToString();
 
-            panel4.BackColor = currentCell.Style.BackColor;
+            panelCurCell.BackColor = currentCell.Style.BackColor;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -444,5 +446,6 @@ namespace HSVReader
 
             table_SelectionChanged(null, null);
         }
+
     }
 }

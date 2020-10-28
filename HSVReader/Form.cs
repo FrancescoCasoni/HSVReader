@@ -51,8 +51,8 @@ namespace HSVReader
 
             initTable();
 
-            comboBoxGain.SelectedIndex = 1;
-            comboBoxValue.SelectedIndex = 4;
+            comboBoxGain.SelectedIndex = 0;
+            comboBoxValue.SelectedIndex = comboBoxValue.Items.Count - 1;
 
             updateTable();
         }
@@ -153,17 +153,17 @@ namespace HSVReader
 
         private void performReadAndSave()
         {
-            OcrResult res = Ocr.Read(getScreenImage());
-            string ocrText = res.Text;
-
-            int x = currentCell.ColumnIndex + 1;
-            int y = 16 - currentCell.RowIndex;
-
-            label4.Text = "X: " + x;
-            label5.Text = "Y: " + y;
-
             try
             {
+                OcrResult res = Ocr.Read(getScreenImage());
+                string ocrText = res.Text;
+
+                int x = currentCell.ColumnIndex + 1;
+                int y = 16 - currentCell.RowIndex;
+
+                label4.Text = "X: " + x;
+                label5.Text = "Y: " + y;
+
                 HSV hsv = new HSV(ocrText, x, y, Gain, Value);
 
                 label26.ForeColor = Color.LimeGreen;
@@ -312,6 +312,9 @@ namespace HSVReader
                 label9.Text = "H: missing";
                 label8.Text = "S: missing";
                 label7.Text = "V: missing";
+                label29.Text = "R: missing";
+                label28.Text = "G: missing";
+                label27.Text = "B: missing";
                 label18.Text = "Col: " + X;
                 label19.Text = "Row: " + Y;
                 return;
@@ -319,8 +322,13 @@ namespace HSVReader
             label9.Text = "H: " + hsv.H.ToString("N3");
             label8.Text = "S: " + hsv.S.ToString("N3");
             label7.Text = "V: " + hsv.V.ToString("N2");
+            label29.Text = "R: " + hsv.R;
+            label28.Text = "G: " + hsv.G;
+            label27.Text = "B: " + hsv.B;
             label18.Text = "Col: " + hsv.X;
             label19.Text = "Row: " + hsv.Y;
+
+            panel4.BackColor = currentCell.Style.BackColor;
         }
 
         private void button1_Click(object sender, EventArgs e)

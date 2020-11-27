@@ -89,7 +89,6 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.panelCurCell = new System.Windows.Forms.Panel();
@@ -317,12 +316,13 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(17, 935);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(330, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -439,7 +439,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F);
-            this.button1.Location = new System.Drawing.Point(935, 844);
+            this.button1.Location = new System.Drawing.Point(960, 828);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(138, 37);
@@ -472,14 +472,8 @@
             this.comboBoxValue.FormattingEnabled = true;
             this.comboBoxValue.Items.AddRange(new object[] {
             "0.55",
-            "0.60",
             "0.65",
-            "0.70",
             "0.75",
-            "0.80",
-            "0.85",
-            "0.90",
-            "0.95",
             "1.00"});
             this.comboBoxValue.Location = new System.Drawing.Point(929, 163);
             this.comboBoxValue.MaxDropDownItems = 4;
@@ -523,7 +517,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft PhagsPa", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(912, 567);
+            this.label13.Location = new System.Drawing.Point(912, 579);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(173, 36);
@@ -534,7 +528,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(930, 734);
+            this.label14.Location = new System.Drawing.Point(930, 746);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(32, 27);
@@ -545,7 +539,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(930, 681);
+            this.label15.Location = new System.Drawing.Point(930, 693);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(30, 27);
@@ -556,7 +550,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label16.Location = new System.Drawing.Point(929, 629);
+            this.label16.Location = new System.Drawing.Point(929, 641);
             this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(34, 27);
@@ -566,10 +560,10 @@
             // buttonFH
             // 
             this.buttonFH.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonFH.Location = new System.Drawing.Point(1039, 627);
+            this.buttonFH.Location = new System.Drawing.Point(1039, 639);
             this.buttonFH.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFH.Name = "buttonFH";
-            this.buttonFH.Size = new System.Drawing.Size(74, 34);
+            this.buttonFH.Size = new System.Drawing.Size(78, 34);
             this.buttonFH.TabIndex = 24;
             this.buttonFH.Text = "Apply";
             this.buttonFH.UseVisualStyleBackColor = true;
@@ -584,7 +578,7 @@
             0,
             0,
             196608});
-            this.numericUpDownH.Location = new System.Drawing.Point(960, 627);
+            this.numericUpDownH.Location = new System.Drawing.Point(960, 639);
             this.numericUpDownH.Maximum = new decimal(new int[] {
             1,
             0,
@@ -609,7 +603,7 @@
             0,
             0,
             196608});
-            this.numericUpDownS.Location = new System.Drawing.Point(960, 679);
+            this.numericUpDownS.Location = new System.Drawing.Point(960, 691);
             this.numericUpDownS.Maximum = new decimal(new int[] {
             1,
             0,
@@ -634,7 +628,7 @@
             0,
             0,
             131072});
-            this.numericUpDownV.Location = new System.Drawing.Point(960, 732);
+            this.numericUpDownV.Location = new System.Drawing.Point(960, 744);
             this.numericUpDownV.Maximum = new decimal(new int[] {
             1,
             0,
@@ -653,10 +647,10 @@
             // buttonFS
             // 
             this.buttonFS.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F);
-            this.buttonFS.Location = new System.Drawing.Point(1039, 679);
+            this.buttonFS.Location = new System.Drawing.Point(1039, 691);
             this.buttonFS.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFS.Name = "buttonFS";
-            this.buttonFS.Size = new System.Drawing.Size(74, 34);
+            this.buttonFS.Size = new System.Drawing.Size(78, 34);
             this.buttonFS.TabIndex = 29;
             this.buttonFS.Text = "Apply";
             this.buttonFS.UseVisualStyleBackColor = true;
@@ -665,10 +659,10 @@
             // buttonFV
             // 
             this.buttonFV.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F);
-            this.buttonFV.Location = new System.Drawing.Point(1039, 732);
+            this.buttonFV.Location = new System.Drawing.Point(1039, 744);
             this.buttonFV.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFV.Name = "buttonFV";
-            this.buttonFV.Size = new System.Drawing.Size(74, 34);
+            this.buttonFV.Size = new System.Drawing.Size(78, 34);
             this.buttonFV.TabIndex = 30;
             this.buttonFV.Text = "Apply";
             this.buttonFV.UseVisualStyleBackColor = true;
@@ -813,18 +807,6 @@
             this.label25.TabIndex = 40;
             this.label25.Text = "202";
             // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F);
-            this.button2.Location = new System.Drawing.Point(935, 780);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(178, 37);
-            this.button2.TabIndex = 43;
-            this.button2.Text = "Remove values";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            // 
             // label26
             // 
             this.label26.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
@@ -839,7 +821,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(935, 505);
+            this.button3.Location = new System.Drawing.Point(936, 505);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(178, 37);
@@ -1067,8 +1049,7 @@
             // 
             // Form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1151, 1024);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.label37);
@@ -1092,7 +1073,6 @@
             this.Controls.Add(this.panelCurCell);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label26);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label25);
@@ -1208,7 +1188,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panelCurCell;

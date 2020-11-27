@@ -242,7 +242,7 @@ namespace HSVReader
                     {
                         var hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
 
-                        if (hsv != null) matrix[15 - y, x] = hsv.getAsString();
+                        if (hsv != null) matrix[15 - y, x] = hsv.getStringForExcel();
                         else matrix[15 - y, x] = "X";
                     }
                 }
@@ -315,8 +315,8 @@ namespace HSVReader
                 labelCurR.Text = "empty";
                 labelCurG.Text = "empty";
                 labelCurB.Text = "empty";
-                labelCurCol.Text = "Col: " + X;
-                labelCurRow.Text = "Row: " + Y;
+                labelCurCol.Text = X.ToString();
+                labelCurRow.Text = Y.ToString();
                 panelCurCell.BackColor = Color.White;
 
                 return;
@@ -358,15 +358,15 @@ namespace HSVReader
             {
                 default: break;
                 case 0: Value = 55; break;
-                case 1: Value = 60; break;
-                case 2: Value = 65; break;
-                case 3: Value = 70; break;
-                case 4: Value = 75; break;
-                case 5: Value = 80; break;
-                case 6: Value = 85; break;
-                case 7: Value = 90; break;
-                case 8: Value = 95; break;
-                case 9: Value = 100; break;
+                case 1: Value = 65; break;
+                case 2: Value = 75; break;
+                case 3: Value = 100; break;
+                //case 4: Value = 75; break;
+                //case 5: Value = 80; break;
+                //case 6: Value = 85; break;
+                //case 7: Value = 90; break;
+                //case 8: Value = 95; break;
+                //case 9: Value = 100; break;
             }
 
             updateTable();
@@ -446,6 +446,5 @@ namespace HSVReader
 
             table_SelectionChanged(null, null);
         }
-
     }
 }

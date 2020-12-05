@@ -5,6 +5,7 @@ using System.Drawing;
 
 namespace HSVReader
 {
+    [Serializable]
     public class HSV
     {
         public int Id { get; set; }
@@ -19,6 +20,7 @@ namespace HSVReader
 
         public int RefValue { get; set; }
         public int Gain { get; set; }
+        public bool IsBlack { get; set; }
 
         public int R { get; set; }
         public int G { get; set; }

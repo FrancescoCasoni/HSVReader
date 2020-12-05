@@ -14,10 +14,10 @@ namespace HSVReader
     public partial class Form : System.Windows.Forms.Form
     {
         private DataGridViewCell currentCell;
-        private readonly AutoOcr Ocr;
-        private readonly HSVDB DB;
+        private readonly IronTesseract Ocr;
         private int Value;
         private int Gain;
+        private bool IsBlack;
         private bool ForcedV;
         private bool ForcedS;
         private bool ForcedH;
@@ -45,14 +45,13 @@ namespace HSVReader
             Height += 7;
             Top = 0;
 
-            Ocr = new AutoOcr();
-
-            DB = new HSVDB();
+            Ocr = new IronTesseract();
 
             initTable();
 
             comboBoxGain.SelectedIndex = 0;
             comboBoxValue.SelectedIndex = comboBoxValue.Items.Count - 1;
+            radioButtonBlack.Checked = true;
 
             updateTable();
         }
@@ -120,7 +119,9 @@ namespace HSVReader
 
         private void colorCells()
         {
-            foreach (HSV hsv in DB.getHSVTableFromVandGain(Value, Gain))
+            List<HSV> list = HSVSerializer.getHSVTableFromValueGainBlack(Value, Gain, IsBlack);
+
+            foreach (HSV hsv in list)
             {
                 if (ForcedH || ForcedS || ForcedV)
                 {
@@ -176,7 +177,7 @@ namespace HSVReader
                 label24.Text = hsv.G.ToString();
                 label23.Text = hsv.B.ToString();
 
-                DB.registerHSV(hsv);
+                HSVSerializer.registerHSV(hsv);
 
                 panel3.BackColor = Color.FromArgb(hsv.R, hsv.G, hsv.B);
 
@@ -240,7 +241,7 @@ namespace HSVReader
                 {
                     for (int x = 0; x < 16; x++)
                     {
-                        var hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X - 1 == x && v.Y - 1 == y).FirstOrDefault();
+                        var hsv = HSVSerializer.getHSVTableFromValueGainBlack(Value, Gain, IsBlack).Find(v => v.X - 1 == x && v.Y - 1 == y);
 
                         if (hsv != null) matrix[15 - y, x] = hsv.getStringForExcel();
                         else matrix[15 - y, x] = "X";
@@ -276,7 +277,7 @@ namespace HSVReader
                 worksheet.Cells[range].LoadFromArrays(headerRow);
 
 
-                FileInfo excelFile = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Readings " + Gain + "xG " + Value + "V.xlsx");
+                FileInfo excelFile = new FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Readings " + Gain + "xG " + Value + "V" + (IsBlack ? "black" : "white") + ".xlsx");
                 excel.SaveAs(excelFile);
             }
         }
@@ -306,7 +307,7 @@ namespace HSVReader
             int X = currentCell.ColumnIndex + 1;
             int Y = 16 - currentCell.RowIndex;
 
-            HSV hsv = DB.getHSVTableFromVandGain(Value, Gain).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
+            HSV hsv = HSVSerializer.getHSVTableFromValueGainBlack(Value, Gain, IsBlack).Where(v => v.X == X && v.Y == Y).FirstOrDefault();
             if (hsv == null)
             {
                 labelCurH.Text = "empty";
@@ -361,12 +362,12 @@ namespace HSVReader
                 case 1: Value = 65; break;
                 case 2: Value = 75; break;
                 case 3: Value = 100; break;
-                //case 4: Value = 75; break;
-                //case 5: Value = 80; break;
-                //case 6: Value = 85; break;
-                //case 7: Value = 90; break;
-                //case 8: Value = 95; break;
-                //case 9: Value = 100; break;
+                    //case 4: Value = 75; break;
+                    //case 5: Value = 80; break;
+                    //case 6: Value = 85; break;
+                    //case 7: Value = 90; break;
+                    //case 8: Value = 95; break;
+                    //case 9: Value = 100; break;
             }
 
             updateTable();
@@ -440,11 +441,23 @@ namespace HSVReader
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DB.deleteHSV(currentCell.ColumnIndex + 1, 16 - currentCell.RowIndex, Value, Gain);
+            HSVSerializer.deleteHSV(currentCell.ColumnIndex + 1, 16 - currentCell.RowIndex, Value, Gain, IsBlack);
 
             table.Rows[currentCell.RowIndex].Cells[currentCell.ColumnIndex].Style.BackColor = Color.White;
 
             table_SelectionChanged(null, null);
+        }
+
+        private void radioButtonBlack_CheckedChanged(object sender, EventArgs e)
+        {
+            IsBlack = radioButtonBlack.Checked;
+            updateTable();
+        }
+
+        private void radioButtonWhite_CheckedChanged(object sender, EventArgs e)
+        {
+            IsBlack = !radioButtonWhite.Checked;
+            updateTable();
         }
     }
 }

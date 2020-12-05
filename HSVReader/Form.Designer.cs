@@ -111,6 +111,9 @@
             this.label36 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
+            this.radioButtonBlack = new System.Windows.Forms.RadioButton();
+            this.radioButtonWhite = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownH)).BeginInit();
@@ -385,7 +388,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft PhagsPa", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(916, 12);
+            this.label6.Location = new System.Drawing.Point(916, 5);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(227, 36);
@@ -396,7 +399,7 @@
             // 
             this.labelCurV.AutoSize = true;
             this.labelCurV.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurV.Location = new System.Drawing.Point(958, 327);
+            this.labelCurV.Location = new System.Drawing.Point(958, 378);
             this.labelCurV.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurV.Name = "labelCurV";
             this.labelCurV.Size = new System.Drawing.Size(50, 27);
@@ -407,7 +410,7 @@
             // 
             this.labelCurS.AutoSize = true;
             this.labelCurS.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurS.Location = new System.Drawing.Point(958, 298);
+            this.labelCurS.Location = new System.Drawing.Point(958, 349);
             this.labelCurS.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurS.Name = "labelCurS";
             this.labelCurS.Size = new System.Drawing.Size(61, 27);
@@ -418,7 +421,7 @@
             // 
             this.labelCurH.AutoSize = true;
             this.labelCurH.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCurH.Location = new System.Drawing.Point(958, 269);
+            this.labelCurH.Location = new System.Drawing.Point(958, 320);
             this.labelCurH.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurH.Name = "labelCurH";
             this.labelCurH.Size = new System.Drawing.Size(61, 27);
@@ -429,7 +432,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft PhagsPa", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(916, 218);
+            this.label10.Location = new System.Drawing.Point(916, 269);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(163, 36);
@@ -439,7 +442,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F);
-            this.button1.Location = new System.Drawing.Point(960, 828);
+            this.button1.Location = new System.Drawing.Point(960, 839);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(138, 37);
@@ -458,7 +461,7 @@
             "4X",
             "16X",
             "60X"});
-            this.comboBoxGain.Location = new System.Drawing.Point(929, 91);
+            this.comboBoxGain.Location = new System.Drawing.Point(929, 80);
             this.comboBoxGain.MaxDropDownItems = 4;
             this.comboBoxGain.Name = "comboBoxGain";
             this.comboBoxGain.Size = new System.Drawing.Size(85, 29);
@@ -475,7 +478,7 @@
             "0.65",
             "0.75",
             "1.00"});
-            this.comboBoxValue.Location = new System.Drawing.Point(929, 163);
+            this.comboBoxValue.Location = new System.Drawing.Point(929, 145);
             this.comboBoxValue.MaxDropDownItems = 4;
             this.comboBoxValue.Name = "comboBoxValue";
             this.comboBoxValue.Size = new System.Drawing.Size(85, 29);
@@ -486,7 +489,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(924, 61);
+            this.label11.Location = new System.Drawing.Point(924, 50);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(129, 27);
@@ -497,7 +500,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(926, 133);
+            this.label12.Location = new System.Drawing.Point(926, 115);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(126, 27);
@@ -517,7 +520,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft PhagsPa", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(912, 579);
+            this.label13.Location = new System.Drawing.Point(912, 620);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(173, 36);
@@ -528,7 +531,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label14.Location = new System.Drawing.Point(930, 746);
+            this.label14.Location = new System.Drawing.Point(930, 777);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(32, 27);
@@ -539,7 +542,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label15.Location = new System.Drawing.Point(930, 693);
+            this.label15.Location = new System.Drawing.Point(930, 724);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(30, 27);
@@ -550,7 +553,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label16.Location = new System.Drawing.Point(929, 641);
+            this.label16.Location = new System.Drawing.Point(929, 672);
             this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(34, 27);
@@ -560,7 +563,7 @@
             // buttonFH
             // 
             this.buttonFH.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonFH.Location = new System.Drawing.Point(1039, 639);
+            this.buttonFH.Location = new System.Drawing.Point(1039, 670);
             this.buttonFH.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFH.Name = "buttonFH";
             this.buttonFH.Size = new System.Drawing.Size(78, 34);
@@ -578,7 +581,7 @@
             0,
             0,
             196608});
-            this.numericUpDownH.Location = new System.Drawing.Point(960, 639);
+            this.numericUpDownH.Location = new System.Drawing.Point(960, 670);
             this.numericUpDownH.Maximum = new decimal(new int[] {
             1,
             0,
@@ -603,7 +606,7 @@
             0,
             0,
             196608});
-            this.numericUpDownS.Location = new System.Drawing.Point(960, 691);
+            this.numericUpDownS.Location = new System.Drawing.Point(960, 722);
             this.numericUpDownS.Maximum = new decimal(new int[] {
             1,
             0,
@@ -628,7 +631,7 @@
             0,
             0,
             131072});
-            this.numericUpDownV.Location = new System.Drawing.Point(960, 744);
+            this.numericUpDownV.Location = new System.Drawing.Point(960, 775);
             this.numericUpDownV.Maximum = new decimal(new int[] {
             1,
             0,
@@ -647,7 +650,7 @@
             // buttonFS
             // 
             this.buttonFS.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F);
-            this.buttonFS.Location = new System.Drawing.Point(1039, 691);
+            this.buttonFS.Location = new System.Drawing.Point(1039, 722);
             this.buttonFS.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFS.Name = "buttonFS";
             this.buttonFS.Size = new System.Drawing.Size(78, 34);
@@ -659,7 +662,7 @@
             // buttonFV
             // 
             this.buttonFV.Font = new System.Drawing.Font("Microsoft PhagsPa", 12F);
-            this.buttonFV.Location = new System.Drawing.Point(1039, 744);
+            this.buttonFV.Location = new System.Drawing.Point(1039, 775);
             this.buttonFV.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFV.Name = "buttonFV";
             this.buttonFV.Size = new System.Drawing.Size(78, 34);
@@ -683,7 +686,7 @@
             // 
             this.labelCurCol.AutoSize = true;
             this.labelCurCol.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurCol.Location = new System.Drawing.Point(1079, 462);
+            this.labelCurCol.Location = new System.Drawing.Point(1079, 513);
             this.labelCurCol.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurCol.Name = "labelCurCol";
             this.labelCurCol.Size = new System.Drawing.Size(34, 27);
@@ -694,7 +697,7 @@
             // 
             this.labelCurRow.AutoSize = true;
             this.labelCurRow.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurRow.Location = new System.Drawing.Point(975, 462);
+            this.labelCurRow.Location = new System.Drawing.Point(975, 513);
             this.labelCurRow.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurRow.Name = "labelCurRow";
             this.labelCurRow.Size = new System.Drawing.Size(23, 27);
@@ -821,7 +824,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(936, 505);
+            this.button3.Location = new System.Drawing.Point(936, 556);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(178, 37);
@@ -833,7 +836,7 @@
             // panelCurCell
             // 
             this.panelCurCell.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelCurCell.Location = new System.Drawing.Point(1029, 274);
+            this.panelCurCell.Location = new System.Drawing.Point(1029, 325);
             this.panelCurCell.Name = "panelCurCell";
             this.panelCurCell.Size = new System.Drawing.Size(84, 174);
             this.panelCurCell.TabIndex = 46;
@@ -842,7 +845,7 @@
             // 
             this.labelCurB.AutoSize = true;
             this.labelCurB.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurB.Location = new System.Drawing.Point(958, 424);
+            this.labelCurB.Location = new System.Drawing.Point(958, 475);
             this.labelCurB.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurB.Name = "labelCurB";
             this.labelCurB.Size = new System.Drawing.Size(45, 27);
@@ -853,7 +856,7 @@
             // 
             this.labelCurG.AutoSize = true;
             this.labelCurG.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurG.Location = new System.Drawing.Point(958, 397);
+            this.labelCurG.Location = new System.Drawing.Point(958, 448);
             this.labelCurG.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurG.Name = "labelCurG";
             this.labelCurG.Size = new System.Drawing.Size(45, 27);
@@ -864,7 +867,7 @@
             // 
             this.labelCurR.AutoSize = true;
             this.labelCurR.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
-            this.labelCurR.Location = new System.Drawing.Point(958, 370);
+            this.labelCurR.Location = new System.Drawing.Point(958, 421);
             this.labelCurR.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCurR.Name = "labelCurR";
             this.labelCurR.Size = new System.Drawing.Size(45, 27);
@@ -875,7 +878,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(930, 327);
+            this.label7.Location = new System.Drawing.Point(930, 378);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 27);
@@ -886,7 +889,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(930, 298);
+            this.label8.Location = new System.Drawing.Point(930, 349);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(30, 27);
@@ -897,7 +900,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(928, 269);
+            this.label9.Location = new System.Drawing.Point(928, 320);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(34, 27);
@@ -908,7 +911,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(930, 423);
+            this.label18.Location = new System.Drawing.Point(930, 474);
             this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(31, 27);
@@ -919,7 +922,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(930, 396);
+            this.label19.Location = new System.Drawing.Point(930, 447);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(33, 27);
@@ -930,7 +933,7 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(930, 369);
+            this.label27.Location = new System.Drawing.Point(930, 420);
             this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(32, 27);
@@ -941,7 +944,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(930, 462);
+            this.label28.Location = new System.Drawing.Point(930, 513);
             this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(50, 27);
@@ -952,7 +955,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(1022, 462);
+            this.label29.Location = new System.Drawing.Point(1022, 513);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(62, 27);
@@ -1047,10 +1050,52 @@
             this.label37.TabIndex = 65;
             this.label37.Text = "Col:";
             // 
+            // radioButtonBlack
+            // 
+            this.radioButtonBlack.AutoSize = true;
+            this.radioButtonBlack.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButtonBlack.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
+            this.radioButtonBlack.Location = new System.Drawing.Point(930, 217);
+            this.radioButtonBlack.Name = "radioButtonBlack";
+            this.radioButtonBlack.Size = new System.Drawing.Size(78, 31);
+            this.radioButtonBlack.TabIndex = 67;
+            this.radioButtonBlack.TabStop = true;
+            this.radioButtonBlack.Text = "Black";
+            this.radioButtonBlack.UseVisualStyleBackColor = true;
+            this.radioButtonBlack.CheckedChanged += new System.EventHandler(this.radioButtonBlack_CheckedChanged);
+            // 
+            // radioButtonWhite
+            // 
+            this.radioButtonWhite.AutoSize = true;
+            this.radioButtonWhite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButtonWhite.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F);
+            this.radioButtonWhite.Location = new System.Drawing.Point(1025, 218);
+            this.radioButtonWhite.Name = "radioButtonWhite";
+            this.radioButtonWhite.Size = new System.Drawing.Size(85, 31);
+            this.radioButtonWhite.TabIndex = 68;
+            this.radioButtonWhite.TabStop = true;
+            this.radioButtonWhite.Text = "White";
+            this.radioButtonWhite.UseVisualStyleBackColor = true;
+            this.radioButtonWhite.CheckedChanged += new System.EventHandler(this.radioButtonWhite_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft PhagsPa", 15.75F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(926, 187);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(176, 27);
+            this.label4.TabIndex = 69;
+            this.label4.Text = "Sensor barndoor";
+            // 
             // Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1151, 1024);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.radioButtonWhite);
+            this.Controls.Add(this.radioButtonBlack);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.label36);
@@ -1210,6 +1255,9 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.RadioButton radioButtonBlack;
+        private System.Windows.Forms.RadioButton radioButtonWhite;
+        private System.Windows.Forms.Label label4;
     }
 }
 

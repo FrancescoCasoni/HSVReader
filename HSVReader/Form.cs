@@ -148,7 +148,7 @@ namespace HSVReader
             gfxScreenshot.CopyFromScreen(2, 144, 0, 0, new Size(330, 50), CopyPixelOperation.SourceCopy);
 
             pictureBox1.Image = screen;
-
+            //screen.Save(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) +@"\ciao.JPG");
             return screen;
         }
 
@@ -194,6 +194,7 @@ namespace HSVReader
 
 
                 table_SelectionChanged(null, null);
+           
             }
             catch (Exception)
             {

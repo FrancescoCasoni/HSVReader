@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Linq;
 
 namespace HSVReader
 {
@@ -30,9 +31,14 @@ namespace HSVReader
 
         public HSV(string arduinoHSV, int x, int y, int gain, int refValue)
         {
-            H = Math.Round(double.Parse(arduinoHSV.Substring(3, 5).Replace('.', ',')), 3);
-            S = Math.Round(double.Parse(arduinoHSV.Substring(12, 5).Replace('.', ',')), 3);
-            V = Math.Round(double.Parse(arduinoHSV.Substring(21, 4).Replace('.', ',')), 3);
+            string s = new string(arduinoHSV.Where(d => char.IsDigit(d)).ToArray());
+
+            string a = s.Substring(0, 4).Insert(1, ",");             
+            string b = s.Substring(4, 4).Insert(1, ",");
+            string c = s.Substring(8, 3).Insert(1, ",");
+            H = Math.Round(double.Parse(a), 3);
+            S = Math.Round(double.Parse(b), 3);
+            V = Math.Round(double.Parse(c), 3);
 
             HSVToRGB(H * 360, S, V, out int R, out int G, out int B);
             this.R = R;

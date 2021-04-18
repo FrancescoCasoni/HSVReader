@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace HSVReader
 {
-    public partial class Form : System.Windows.Forms.Form
+    public partial class MainForm : Form
     {
         private DataGridViewCell currentCell;
         private readonly IronTesseract Ocr;
@@ -33,7 +33,7 @@ namespace HSVReader
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public Form()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace HSVReader
 
             initTable();
 
-            comboBoxGain.SelectedIndex = 0;
+            comboBoxGain.SelectedIndex = 1;
             comboBoxValue.SelectedIndex = comboBoxValue.Items.Count - 1;
             radioButtonBlack.Checked = true;
 
@@ -459,6 +459,11 @@ namespace HSVReader
         {
             IsBlack = !radioButtonWhite.Checked;
             updateTable();
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            new Watch().ShowDialog();
         }
     }
 }

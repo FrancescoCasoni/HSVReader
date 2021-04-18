@@ -33,7 +33,7 @@ namespace HSVReader
         {
             string s = new string(arduinoHSV.Where(d => char.IsDigit(d)).ToArray());
 
-            string a = s.Substring(0, 4).Insert(1, ",");             
+            string a = s.Substring(0, 4).Insert(1, ",");
             string b = s.Substring(4, 4).Insert(1, ",");
             string c = s.Substring(8, 3).Insert(1, ",");
             H = Math.Round(double.Parse(a), 3);
@@ -121,5 +121,7 @@ namespace HSVReader
             else
                 return Color.FromArgb(255, v, p, q);
         }
+
+     
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HSVReader
 {
-    partial class Form
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -31,7 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.table = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -114,6 +114,7 @@
             this.radioButtonBlack = new System.Windows.Forms.RadioButton();
             this.radioButtonWhite = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
+            this.buttonOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownH)).BeginInit();
@@ -319,7 +320,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(17, 935);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
@@ -336,9 +337,9 @@
             this.label1.Location = new System.Drawing.Point(396, 929);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 27);
+            this.label1.Size = new System.Drawing.Size(34, 27);
             this.label1.TabIndex = 2;
-            this.label1.Text = "0,550";
+            this.label1.Text = " --";
             // 
             // label2
             // 
@@ -347,9 +348,9 @@
             this.label2.Location = new System.Drawing.Point(482, 929);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 27);
+            this.label2.Size = new System.Drawing.Size(34, 27);
             this.label2.TabIndex = 3;
-            this.label2.Text = "0,125";
+            this.label2.Text = " --";
             // 
             // label3
             // 
@@ -358,9 +359,9 @@
             this.label3.Location = new System.Drawing.Point(579, 929);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 27);
+            this.label3.Size = new System.Drawing.Size(34, 27);
             this.label3.TabIndex = 3;
-            this.label3.Text = "0,35";
+            this.label3.Text = " --";
             // 
             // labelCol
             // 
@@ -371,7 +372,7 @@
             this.labelCol.Name = "labelCol";
             this.labelCol.Size = new System.Drawing.Size(34, 27);
             this.labelCol.TabIndex = 4;
-            this.labelCol.Text = "16";
+            this.labelCol.Text = " --";
             // 
             // labelRow
             // 
@@ -382,7 +383,7 @@
             this.labelRow.Name = "labelRow";
             this.labelRow.Size = new System.Drawing.Size(34, 27);
             this.labelRow.TabIndex = 5;
-            this.labelRow.Text = "11";
+            this.labelRow.Text = " --";
             // 
             // label6
             // 
@@ -591,11 +592,6 @@
             this.numericUpDownH.Size = new System.Drawing.Size(73, 34);
             this.numericUpDownH.TabIndex = 26;
             this.numericUpDownH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDownH.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            196608});
             // 
             // numericUpDownS
             // 
@@ -617,10 +613,10 @@
             this.numericUpDownS.TabIndex = 27;
             this.numericUpDownS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownS.Value = new decimal(new int[] {
-            85,
+            1,
             0,
             0,
-            131072});
+            0});
             // 
             // numericUpDownV
             // 
@@ -786,7 +782,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(34, 27);
             this.label23.TabIndex = 42;
-            this.label23.Text = "66";
+            this.label23.Text = " --";
             // 
             // label24
             // 
@@ -795,9 +791,9 @@
             this.label24.Location = new System.Drawing.Point(485, 963);
             this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(45, 27);
+            this.label24.Size = new System.Drawing.Size(34, 27);
             this.label24.TabIndex = 41;
-            this.label24.Text = "142";
+            this.label24.Text = " --";
             // 
             // label25
             // 
@@ -806,9 +802,9 @@
             this.label25.Location = new System.Drawing.Point(396, 963);
             this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(45, 27);
+            this.label25.Size = new System.Drawing.Size(34, 27);
             this.label25.TabIndex = 40;
-            this.label25.Text = "202";
+            this.label25.Text = " --";
             // 
             // label26
             // 
@@ -1089,10 +1085,23 @@
             this.label4.TabIndex = 69;
             this.label4.Text = "Sensor barndoor";
             // 
-            // Form
+            // buttonOpen
+            // 
+            this.buttonOpen.Font = new System.Drawing.Font("Microsoft PhagsPa", 14.25F);
+            this.buttonOpen.Location = new System.Drawing.Point(980, 948);
+            this.buttonOpen.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(138, 37);
+            this.buttonOpen.TabIndex = 70;
+            this.buttonOpen.Text = "Visualizza";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1151, 1024);
+            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.radioButtonWhite);
             this.Controls.Add(this.radioButtonBlack);
@@ -1161,7 +1170,7 @@
             this.Controls.Add(this.pictureBox3);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form";
+            this.Name = "MainForm";
             this.Text = "ANTS 2.0 HSV Reader";
             ((System.ComponentModel.ISupportInitialize)(this.table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1258,6 +1267,7 @@
         private System.Windows.Forms.RadioButton radioButtonBlack;
         private System.Windows.Forms.RadioButton radioButtonWhite;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button buttonOpen;
     }
 }
 

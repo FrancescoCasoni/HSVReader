@@ -3,32 +3,41 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace HSVReader
 {
     public class HSVSerializer
     {
         public static readonly string path = Path.Combine(Application.StartupPath, "hsv.values");
+        public static readonly string xmlPath = Path.Combine(Application.StartupPath, "hsv.xml");
         public static List<HSV> getHSVTable() => deserilizeHSVs();
 
 
         public static void serilizeHSVs(List<HSV> list)
         {
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            HSV[] array = list.ToArray();
+
+            XmlSerializer s = new XmlSerializer(typeof(HSV[]));
+
+            using (FileStream fs = new FileStream(xmlPath, FileMode.Create))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(fs, list);
-                fs.Close();
+                s.Serialize(fs, array);
             }
         }
 
         public static List<HSV> deserilizeHSVs()
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open))
+            List<HSV> list;
+            XmlSerializer s = new XmlSerializer(typeof(HSV[]));
+            using (FileStream fs = new FileStream(xmlPath, FileMode.OpenOrCreate))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (List<HSV>)formatter.Deserialize(fs);
+                HSV[] array = (HSV[])s.Deserialize(fs);
+
+                list = array.ToList();
             }
+
+            return list;
         }
 
         public static void registerHSV(HSV hsv)

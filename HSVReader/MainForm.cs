@@ -194,7 +194,7 @@ namespace HSVReader
 
 
                 table_SelectionChanged(null, null);
-           
+
             }
             catch (Exception)
             {

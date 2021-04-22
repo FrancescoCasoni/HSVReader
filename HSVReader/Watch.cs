@@ -20,7 +20,7 @@ namespace HSVReader
             Ocr = new IronTesseract();
 
             t = new Timer();
-            t.Interval = 1000; // specify interval time as you want
+            t.Interval = 1000; 
             t.Tick += new EventHandler(timer_Tick);
             t.Start();
 

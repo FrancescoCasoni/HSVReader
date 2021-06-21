@@ -7,10 +7,16 @@ using System.Xml.Serialization;
 
 namespace HSVReader
 {
-    public class HSVSerializer
+    public static class HSVSerializer
     {
         public static readonly string path = Path.Combine(Application.StartupPath, "hsv.values");
         public static readonly string xmlPath = Path.Combine(Application.StartupPath, "hsv.xml");
+
+        public static void init()
+        {
+            if (!File.Exists(xmlPath)) serilizeHSVs(new List<HSV>());
+        }
+
         public static List<HSV> getHSVTable() => deserilizeHSVs();
 
 

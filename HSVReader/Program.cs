@@ -10,6 +10,8 @@ namespace HSVReader
         [STAThread]
         static void Main()
         {
+            HSVSerializer.init();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());          
